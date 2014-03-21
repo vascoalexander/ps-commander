@@ -1,0 +1,2 @@
+The Custom Buttons (Execution Buttons) run or open any file or folder inside the Scripts folder that you have defined in the Settings.ini
+You can choose any location on your HDD if you enter the full path in the settings.

@@ -1,0 +1,70 @@
+cTID = function(s) { return app.charIDToTypeID(s); };
+sTID = function(s) { return app.stringIDToTypeID(s); };
+
+function getHeight() {
+var startRulerUnits = app.preferences.rulerUnits;
+app.preferences.rulerUnits = Units.PIXELS;
+docH = app.activeDocument.height.value;
+app.preferences.rulerUnits = startRulerUnits;
+return(docH);
+};
+
+function getWidth() {
+var startRulerUnits = app.preferences.rulerUnits;
+app.preferences.rulerUnits = Units.PIXELS;
+docV = app.activeDocument.width.value;
+app.preferences.rulerUnits = startRulerUnits;
+return(docV);
+};
+
+function getWidth_Percent(PercVal) {
+	Perc1 = getWidth() / 100;
+	PercX = Perc1 * PercVal;
+	return(PercX);
+};
+
+function getHeight_Percent(PercVal) {
+	Perc1 = getHeight() / 100;
+	PercX = Perc1 * PercVal;
+	return(PercX);
+};
+
+function GuideHorizontal(percent) {
+  function step1(enabled, withDialog) {
+    if (enabled != undefined && !enabled)
+      return;
+    var dialogMode = (withDialog ? DialogModes.ALL : DialogModes.NO);
+    var desc1 = new ActionDescriptor();
+    var desc2 = new ActionDescriptor();
+    desc2.putUnitDouble(cTID('Pstn'), cTID('#Pxl'), getHeight_Percent(percent));
+    desc2.putEnumerated(cTID('Ornt'), cTID('Ornt'), cTID('Hrzn'));
+    desc1.putObject(cTID('Nw  '), cTID('Gd  '), desc2);
+    executeAction(sTID('make'), desc1, dialogMode);
+  };
+
+  step1();      
+};
+
+GuideHorizontal.main = function (percent) {
+  GuideHorizontal(percent);
+};
+
+function GuideVertical(percent) {
+  function step1(enabled, withDialog) {
+    if (enabled != undefined && !enabled)
+      return;
+    var dialogMode = (withDialog ? DialogModes.ALL : DialogModes.NO);
+    var desc1 = new ActionDescriptor();
+    var desc2 = new ActionDescriptor();
+    desc2.putUnitDouble(cTID('Pstn'), cTID('#Pxl'), getWidth_Percent(percent));
+    desc2.putEnumerated(cTID('Ornt'), cTID('Ornt'), cTID('Vert'));
+    desc1.putObject(cTID('Nw  '), cTID('Gd  '), desc2);
+    executeAction(sTID('make'), desc1, dialogMode);
+  };
+
+  step1();      
+};
+
+GuideVertical.main = function (percent) {
+  GuideVertical(percent);
+};
